@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
-import type { Room } from "./RoomList.type";
-import axiosInstance from "../../lib/axios";
-import { useLocation, useNavigate } from "react-router";
-import { useSocketContext } from "../../contexts/socket.context";
+import { useNavigate } from "react-router";
 
 const RoomList = () => {
-  const [rooms, setRooms] = useState<Room[]>([]);
+  // const [rooms, setRooms] = useState<Room[]>([{
+  //   _id: '1234',
+  //   roomName: 'test'
+  // }]);
+  const rooms = [
+    {
+      _id: "AI",
+      roomName: "AI",
+    },
+  ];
   const navigate = useNavigate();
-  const { current: socket } = useSocketContext();
-  const { state: currentUser } = useLocation();
 
-  useEffect(() => {
-    (async () => {
-      const response = await axiosInstance.get("/rooms");
-      setRooms(response.data.data.rooms);
-    })();
-  }, [socket, currentUser]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await axiosInstance.get("/rooms");
+  //     setRooms(response.data.data.rooms);
+  //   })();
+  // }, [socket, currentUser]);
 
   function joinRoom(roomId: string) {
     navigate(`/room/${roomId}`);

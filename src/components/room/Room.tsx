@@ -10,6 +10,7 @@ import type {
   SpeakingPayload,
 } from "../../lib/socket.types";
 import type { AudioMap, PeerMap, SpeakingMap } from "./Room.type";
+import freeice from "freeice";
 
 export default function AudioRoom() {
   const { roomId } = useParams();
@@ -24,22 +25,6 @@ export default function AudioRoom() {
   const [participants, setParticipants] = useState<string[]>([]);
   const [speakingUsers, setSpeakingUsers] = useState<SpeakingMap>({});
   const [micOn, setMicOn] = useState(true);
-
-  const freeIceServerUrls = [
-    "stun.l.google.com:19302",
-    "stun1.l.google.com:19302",
-    "stun2.l.google.com:19302",
-    "stun3.l.google.com:19302",
-    "stun4.l.google.com:19302",
-    "stun.ekiga.net",
-    "stun.ideasip.com",
-    "stun.schlund.de",
-    "stun.stunprotocol.org:3478",
-    "stun.voiparound.com",
-    "stun.voipbuster.com",
-    "stun.voipstunt.com",
-    "stun.voxgratia.org",
-  ];
 
   // 🎙 VOICE DETECTION
   const setupVoiceDetection = useCallback(
@@ -113,11 +98,7 @@ export default function AudioRoom() {
         if (peerConnections.current[peerId]) return;
 
         const pc = new RTCPeerConnection({
-          iceServers: [
-            {
-              urls: freeIceServerUrls,
-            },
-          ],
+          iceServers: freeice(),
         });
 
         peerConnections.current[peerId] = pc;
