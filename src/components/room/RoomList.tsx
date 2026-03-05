@@ -3,7 +3,6 @@ import type { Room } from "./RoomList.type";
 import axiosInstance from "../../lib/axios";
 import { useLocation, useNavigate } from "react-router";
 import { useSocketContext } from "../../contexts/socket.context";
-import { SOCKET_EVENT } from "../../constants/socket";
 
 const RoomList = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -16,10 +15,6 @@ const RoomList = () => {
       const response = await axiosInstance.get("/rooms");
       setRooms(response.data.data.rooms);
     })();
-
-    socket?.emit(SOCKET_EVENT.CONNECT_USER, {
-      userId: currentUser._id as string,
-    });
   }, [socket, currentUser]);
 
   function joinRoom(roomId: string) {
