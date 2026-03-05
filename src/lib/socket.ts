@@ -1,7 +1,7 @@
 import io from "socket.io-client";
 
 export const socketInit = () => {
-  const socket = io("ws://localhost:5500");
+  const socket = io(import.meta.env.VITE_SOCKET_URL as string);
 
   return socket;
 };
